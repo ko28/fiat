@@ -55,11 +55,12 @@ public class FileBasedUserRolesProvider implements UserRolesProvider {
   @Override
   public List<Role> loadRoles(ExternalUser user) {
     try {
-      return Optional.ofNullable(parse().get(user.getId())).orElse(Collections.emptyList());
+      return Optional.ofNullable(parse().get(user.getId()))
+          .orElse(Collections.singletonList(new Role("public")));
     } catch (IOException io) {
       log.error("Couldn't load roles for user " + user.getId() + " from file", io);
     }
-    return Collections.emptyList();
+    return Collections.singletonList(new Role("public"));
   }
 
   @Override
